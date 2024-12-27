@@ -1,0 +1,218 @@
+import tkinter as tk
+from tkinter import Toplevel
+import matplotlib
+import matplotlib.pyplot as plt
+import json
+# from reaktor import zmiana_stanu
+# from reaktor import Reaktor
+from serwis import zmiana_stanu
+
+root = None
+#funkcje pomocnicze
+
+#fukcje z zawartoscia i ustawieniami nowych okien
+def  serwisowy(zamknij):
+    if zamknij:
+        zamknij.destroy()
+
+    serw = tk.Tk()
+    serw.title("Tryb serwisowy")
+    serw.geometry("1024x600")
+    serw.configure(bg="black")
+#czytanie z pliku danych json
+    with open('temperatury.json','r') as read:
+        dane = json.load(read)
+
+    label1=tk.Label(serw,
+        text="Tryb serwisowy",
+        bg="black",
+        fg="red",
+        font=("Helvetica",20)
+        )
+    label1.grid(row=0, column=0, columnspan=len(dane), pady=10)
+    col = 0
+    for dana,wartosc in dane.items():
+        outd = tk.Label(serw,
+            text=f"{dana}",
+            bg="black",
+            fg="red",
+            font=("Helvenica",15)
+            )
+        outd.grid(row=1,column=col,padx=20,pady=20) #wypisanie danych
+
+        outw = tk.Label(serw,
+            text=f"{wartosc}",
+            bg="black",
+            fg="red",
+            font=("Helvenica",15))
+        outw.grid(row=2,column=col,padx=20,pady=20)#wypisanie danych
+    col+=1
+
+    # start = tk.Button(serw,
+    #     text="zmiana",
+    #     bg="black",
+    #     fg="red",
+    #     font=("Helvenica",15),
+    #     command=Reaktor
+    #     )
+
+    wyjscie=tk.Button(serw,
+        text="Wyjscie",
+        bg="red",
+        fg="black",
+        font=("Helvenica",20),
+        command= lambda : main(serw)
+        )
+    global testowy
+    testowy=tk.Button(serw,
+        text="test",
+        bg="red",
+        fg="white",
+        command=zmiana_koloru)
+    testowy.grid(row=4,column=0,columnspan=len(dane),pady=20)
+    wyjscie.grid(row=3,column=0,columnspan=len(dane),pady=20)
+
+    zal = tk.Button(serw,
+        text="Zalacz glowne zasilanie",
+        bg="red",
+        fg="white",
+        command=lambda: zmiana_stanu(0))
+    zal.grid(row=5,column=0,columnspan=len(dane),pady=20)
+
+    pomp_rot = tk.Button(serw,
+        text="Zalaczenie pompy rotacyjnej",
+        bg="red",
+        fg="white",
+        command=lambda: zmiana_stanu(1))
+    pomp_rot.grid(row=6, column=0, columnspan=len(dane), pady=20)
+
+    pomp_turbo = tk.Button(serw,
+        text="Zalaczenie pompy turbo molekularnej",
+        bg="red",
+        fg="white",
+        command=lambda: zmiana_stanu(2))
+    pomp_turbo.grid(row=7, column=0, columnspan=len(dane), pady=20)
+
+    fuzja = tk.Button(serw,
+        text="fuzja",
+        bg="red",
+        fg="white",
+        command=lambda: zmiana_stanu(3))
+    fuzja.grid(row=0, column=1, columnspan=len(dane), pady=20)
+
+    gen_paliwa = tk.Button(serw,
+        text="Generator paliwa",
+        bg="red",
+        fg="white",
+        command=lambda: zmiana_stanu(4))
+    gen_paliwa.grid(row=1, column=1, columnspan=len(dane), pady=20)
+
+    zaw_pompy = tk.Button(serw,
+        text="Zawor pompy",
+        bg="red",
+        fg="white",
+        command=lambda: zmiana_stanu(5))
+    zaw_pompy.grid(row=2, column=1, columnspan=len(dane), pady=20)
+
+    zaw_paliwa = tk.Button(serw,
+        text="wypisz",
+        bg="red",
+        fg="white",
+        command=lambda: zmiana_stanu(6))
+    zaw_paliwa.grid(row=3, column=1, columnspan=len(dane), pady=20)
+
+    zaw_powietrza = tk.Button(serw,
+        text="Zawor powietrza",
+        bg="red",
+        fg="white",
+        command=lambda: zmiana_stanu(7))
+    zaw_powietrza.grid(row=4, column=1, columnspan=len(dane), pady=20)
+
+#funkcje pomocnicze
+
+def zmiana_koloru():
+    zmiana = testowy.cget("bg")
+    nowy_kolor="green" if zmiana == "red" else "red"
+    testowy.config(bg=nowy_kolor)
+
+#kontunuacja glownego programu
+def auto(zmiana):
+    if zmiana:
+        zmiana.destroy()
+
+    aut = tk.Tk()
+    aut.title("Tryb automatyczny")
+    aut.geometry("1024x600")
+    aut.configure(bg="black")
+
+    napis=tk.Label(aut,
+        text="Tryb automatyczny",
+        bg="black",
+        fg="red",
+        font=("Helvenica",15)
+    )
+    zalacz_auto=tk.Button(aut,
+        text="Zalacz tryb automatyczny",
+        bg="green",
+        fg="white",
+        font=("Helvenica",15)
+        #tu nalezy dac odwolanie do funckji ktora zalacza tryb automatyczny
+    )
+    wyjsce=tk.Button(aut,
+         text="Wyjscie",
+         bg="black",
+         fg="red",
+         font=("Helvenica",20),
+         command=lambda: main(aut)
+         )
+    napis.pack(pady=10)
+    zalacz_auto.pack(pady=10)
+    wyjsce.pack(pady=20)
+
+#parametry glownego okna
+def main(zamknij=None):
+    if zamknij:
+        zamknij.destroy()
+    global root
+    root = tk.Tk()
+    root.geometry("1024x600")
+
+    root.title("Label Widget")
+    root.configure(bg="black")
+
+    #napis glowny , jest on tylko pogladowy
+    napis1 = tk.Label(root,
+        text="Witam",
+        font=("Helvetica",20),
+        background="black",
+        fg="red"
+    )
+
+    napis1.pack(pady=20)
+
+    #przyciski z odwolaniem do nowych okien
+    button1=tk.Button(
+        root,
+        text="Tryb serwisowy",
+        command=lambda: serwisowy(root),
+        bg="gray",
+        fg="white"
+    )
+
+    button1.pack(pady=10)
+
+    button2=tk.Button(
+        root,
+        text="Tryb automatyczny",
+        command=lambda: auto(root),
+        bg="gray",
+        fg="white"
+    )
+    button2.pack(
+        ipadx=10,
+        ipady=10
+    )
+
+    #wywołanie
+    root.mainloop()
+main()
