@@ -2,4 +2,6 @@ Głównym plikiem jest "Fuzja - bezemisyjna energia przyszłości v3.pdf" zawier
 
 Autorzy: Karol Sawicki, Kamil Surowiak, Jakub Tutka
 
-Link do materiałow:
+Opiekun: Jacek piotrowski
+
+Link Filmu z działania urządzenia: https://youtu.be/W_UJDV1NxBU
