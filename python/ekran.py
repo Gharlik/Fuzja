@@ -185,7 +185,7 @@ def main(zamknij=None):
     global root
     root = tk.Tk()
     root.geometry("1024x600")
-    root.title("Label Widget")
+    root.title("Reaktor fuzyjny v3")
     root.configure(bg="black")
 
     napis1 = tk.Label(root,
